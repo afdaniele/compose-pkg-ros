@@ -1,0 +1,8 @@
+{
+    "name" : "ROS",
+    "description" : "Provides libraries and APIs for exchanging messages with a ROS network via websocket",
+    "dependencies" : {
+        "system-packages" : [],
+        "packages" : []
+    }
+}
