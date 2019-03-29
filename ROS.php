@@ -105,19 +105,22 @@ class ROS{
           url : '%s'
         });
         ros.on('connection', function() {
-          $(document).trigger('ROSBRIDGE_CONNECTED');
+          $(document).trigger('%s');
         });
         ros.on('error', function(error) {
-          $(document).trigger('ROSBRIDGE_ERROR', [error]);
+          $(document).trigger('%s', [error]);
         });
         ros.on('close', function() {
-          $(document).trigger('ROSBRIDGE_CLOSED');
+          $(document).trigger('%s');
         });
       });
       </script>
       ",
       Core::getJSscriptURL('roslibjs.min.js', 'ros'),
-      $ws_url
+      $ws_url,
+      self::$ROSBRIDGE_CONNECTED,
+      self::$ROSBRIDGE_ERROR,
+      self::$ROSBRIDGE_CLOSED
     );
   }//connect
 
