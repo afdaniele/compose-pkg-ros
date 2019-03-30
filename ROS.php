@@ -86,6 +86,9 @@ class ROS{
       $ws_hostname = Core::getSetting('rosbridge_hostname', 'ros');
       if(strlen($ws_hostname) < 2){
         $ws_hostname = $_SERVER['HTTP_HOST'];
+        // remove port (if any) from the http host string
+        $ws_hostname_parts = explode(':', $ws_hostname);
+        $ws_hostname = $ws_hostname_parts[0];
       }
       // compile the Websocket URL
       $ws_url = sprintf(
