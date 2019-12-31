@@ -181,7 +181,7 @@ class ROS{
     // get WebSocket hostname from config (defaults to HTTP_HOST if not set)
     $ws_hostname = Core::getSetting('rosbridge_hostname', 'ros');
     if(strlen($ws_hostname) < 2){
-      $ws_hostname = strstr($_SERVER['HTTP_HOST'], ':', true);
+      $ws_hostname = Core::getBrowserHostname();
       // remove port (if any) from the http host string
       $ws_hostname_parts = explode(':', $ws_hostname);
       $ws_hostname = $ws_hostname_parts[0];
