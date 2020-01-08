@@ -1,3 +1,9 @@
+## 0.1.2 (January 08, 2020)
+  - minor
+  - added support for multi-vehicle ws connections
+  - minor
+  - minor
+
 ## 0.1.1 (April 21, 2019)
   - minor
 
