@@ -1,3 +1,6 @@
+## 0.1.3 (January 27, 2020)
+  - fixed bug
+
 ## 0.1.2 (January 08, 2020)
   - minor
   - added support for multi-vehicle ws connections
