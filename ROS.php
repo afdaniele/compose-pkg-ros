@@ -115,7 +115,7 @@ class ROS {
             self::$roslibjs_initialized = true;
             echo sprintf(
                 "<script type='text/javascript' src='%s'></script>",
-                Core::getJSscriptURL('roslib.js', 'ros')
+                Core::getJSscriptURL('roslib.min.js', 'ros')
             );
             //
             return ['success' => true, 'data' => null];
