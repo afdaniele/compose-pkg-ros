@@ -60,7 +60,7 @@ window.ROSDB = (function () {
     console.log('Request to subscribe to origin for a new resource "{0}". Creating resource.'.format(resource_name));
     // ---
     var topic = new ROSLIB.Topic({
-      ros : window.ros,
+      ros : window.ros['local'],
       name : topic_name,
       messageType : topic_msg_type,
       queue_size : queue_size,
@@ -154,7 +154,7 @@ window.ROSDB = (function () {
     console.log('Request to advertise a new resource "{0}"'.format(resource_name));
     // ---
     var topic = new ROSLIB.Topic({
-      ros : window.ros,
+      ros : window.ros['local'],
       name : topic_name,
       messageType : topic_msg_type,
       queue_size : queue_size,
