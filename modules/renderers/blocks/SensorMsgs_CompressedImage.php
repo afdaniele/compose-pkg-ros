@@ -74,30 +74,27 @@ class SensorMsgs_CompressedImage extends BlockRenderer{
     ?>
 
     <script type="text/javascript">
-      $(document).ready(function() {
-        $(document).on("<?php echo $connected_evt ?>", function(evt){
-          // Subscribe to the CompressedImage topic
-          subscriber = new ROSLIB.Topic({
-            ros : window.ros['<?php echo $ros_hostname ?>'],
-            name : '<?php echo $args['topic'] ?>',
-            messageType : 'sensor_msgs/CompressedImage',
-            queue_size : 1,
-            throttle_rate : <?php echo intval(1000/$args['fps']) ?>
-          });
+        $(document).on("<?php echo $connected_evt ?>", function (evt) {
+            // Subscribe to the CompressedImage topic
+            subscriber = new ROSLIB.Topic({
+                ros: window.ros['<?php echo $ros_hostname ?>'],
+                name: '<?php echo $args['topic'] ?>',
+                messageType: 'sensor_msgs/CompressedImage',
+                queue_size: 1,
+                throttle_rate: <?php echo intval(1000 / $args['fps']) ?>
+            });
 
-          subscriber.subscribe(function(message) {
-            canvas = $('#<?php echo $id ?>');
-            base64_string = 'data:image/jpg;base64,'+message['data'];
-            canvas.css('background-image', 'url(' + base64_string + ')');
-            // hide placeholder
-            $('#<?php echo $id ?> #image_placeholder').css('display', 'none');
-            // refresh style
-            $('#<?php echo $id ?>').css('background-position', '<?php echo $args['position'] ?>');
-            $('#<?php echo $id ?>').css('background-size', '<?php echo $args['style'] ?>');
-          });
+            subscriber.subscribe(function (message) {
+                canvas = $('#<?php echo $id ?>');
+                base64_string = 'data:image/jpg;base64,' + message['data'];
+                canvas.css('background-image', 'url(' + base64_string + ')');
+                // hide placeholder
+                $('#<?php echo $id ?> #image_placeholder').css('display', 'none');
+                // refresh style
+                $('#<?php echo $id ?>').css('background-position', '<?php echo $args['position'] ?>');
+                $('#<?php echo $id ?>').css('background-size', '<?php echo $args['style'] ?>');
+            });
         });
-
-      });
     </script>
 
     <?php
