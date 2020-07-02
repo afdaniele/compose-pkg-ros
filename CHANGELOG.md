@@ -1,3 +1,9 @@
+## 1.0.0-rc (July 02, 2020)
+  - fixed bug in SensorMsgs_CompressedImage.php
+  - fixed bug with roslibjs.min.js library
+  - adapted to multi-robot ROS
+  - reformat
+
 ## 0.1.3 (January 27, 2020)
   - fixed bug
 
