@@ -236,6 +236,81 @@ window.ROSDB = (function () {
     delete OUT_DB[resource_name];
   }//_unadvertise
 
+  // to use _paramGet and _paramSet, keep in mind they are async function. Prefix with await!
+  async function _paramGet(resource_name){
+    return await _fetchParam(resource_name);
+  }// _ParamGet
+
+  function _fetchParam(resource_name) {
+    return new Promise((resolve) => {
+      var localParamObj = new ROSLIB.Param({
+        ros: window.ros['local'],
+        name: resource_name
+      });
+      localParamObj.get(function (value) {
+        if (value == null) {
+          console.warn("[WARNING]: Obtained a null value. Check parameter topic!");
+        } else {
+          console.info("[INFO]: Got Parameter: '", resource_name, "' as ", value)
+        };
+        resolve(value)
+      });
+    });
+  }//_fetchParam
+
+  async function _paramSet(resource_name,desired_value){
+    var previousParam = await _paramGet(resource_name);
+    if (previousParam == null){
+      console.warn("[WARNING]: Requested parameter does not exist or its null. Will create new param!");
+    }
+    var localParamObj = new ROSLIB.Param({
+      ros: window.ros['local'],
+      name: resource_name
+    });
+    localParamObj.set(desired_value);
+    console.info("[INFO]: Previous param: ", previousParam," New param: ",desired_value);
+    return null;
+  }//_paramSet
+
+  async function _synchronizedServiceCall(resource_name,data,type){
+    return await _rosServiceCallPMS(resource_name,data,type);
+  }
+
+  function _rosServiceCallPMS(resource_name,request,type){
+    return new Promise((resolve, reject) =>{
+      var serviceObj = new ROSLIB.Service({
+        ros: window.ros['local'],
+        name: resource_name,
+        serviceType: type
+      });
+      serviceObj.callService(
+        request,
+        response =>{
+          resolve(response);
+          console.info("[INFO]: Service call on ", resource_name," responded: ",response)
+        },
+        error=>{
+          console.error("[ERROR]: Service Call on ", resource_name, " report ERROR!:", err);
+          reject(err);
+        }
+      );
+    });
+  }
+
+  function _rosServiceCall(resource_name,request,type){
+    var serviceObj = new ROSLIB.Service({
+      ros: window.ros['local'],
+      name: resource_name,
+      serviceType: type
+    });
+    serviceObj.callService(
+      request,
+      function(response){
+        console.info("[INFO]: Service call on ", resource_name," responded: ",response)
+      },
+      function(err){console.error("[ERROR]: Service Call on ", resource_name, " report ERROR!:", err);}
+    );
+  }
   // public functions
   return {
     list: _list,
@@ -247,6 +322,10 @@ window.ROSDB = (function () {
     publish: _publish,
     pause: _pause,
     resume: _resume,
-    unadvertise: _unadvertise
+    unadvertise: _unadvertise,
+    paramGet: _paramGet,
+    paramSet: _paramSet,
+    pmsCall: _synchronizedServiceCall,
+    serviceCall: _rosServiceCall
   };
 })();
