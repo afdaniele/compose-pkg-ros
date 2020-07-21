@@ -1,13 +1,13 @@
 {
-    "name" : "ROS",
-    "description" : "Provides libraries and APIs for exchanging messages with a ROS network via websocket",
-    "core" : {
-        "namespace" : "ros",
-        "file" : "ROS.php",
-        "class" : "ROS"
+    "name": "ROS",
+    "description": "Provides libraries and APIs for exchanging messages with a ROS network via websocket",
+    "core": {
+        "namespace": "ros",
+        "file": "ROS.php",
+        "class": "ROS"
     },
-    "dependencies" : {
-        "system-packages" : [],
-        "packages" : []
+    "dependencies": {
+        "system-packages": [],
+        "packages": []
     }
 }
