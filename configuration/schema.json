@@ -1,0 +1,25 @@
+{
+    "type": "object",
+    "details": "ROS package configuration",
+    "_data": {
+        "rosbridge": {
+            "type": "object",
+            "details": "ROSBridge Webosocket connection configuration",
+            "_data": {
+                "hostname": {
+                    "type": "text",
+                    "default": null,
+                    "details": "Hostname of the ROS Bridge socket"
+                },
+                "port": {
+                    "type": "text",
+                    "default": 9001,
+                    "details": "Port of the ROS Bridge socket"
+                }
+            },
+            "__form__": {
+                "title": "ROSBridge"
+            }
+        }
+    }
+}
