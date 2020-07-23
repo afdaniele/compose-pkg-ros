@@ -180,7 +180,7 @@ class ROS {
     
     private static function _get_default_ros_hostname() {
         // get WebSocket hostname from config (defaults to HTTP_HOST if not set)
-        $ws_hostname = Core::getSetting('rosbridge_hostname', 'ros');
+        $ws_hostname = Core::getSetting('rosbridge/hostname', 'ros');
         if (strlen($ws_hostname) < 2) {
             $ws_hostname = strstr($_SERVER['HTTP_HOST'] . ':' . $_SERVER['SERVER_PORT'], ':', true);
             // remove port (if any) from the http host string
@@ -194,7 +194,7 @@ class ROS {
     private static function _get_ros_ws_url($ws_hostname = null, $ws_port = null) {
         $ws_hostname = self::_get_final_ws_hostname($ws_hostname);
         if (is_null($ws_port)) {
-            $ws_port = Core::getSetting('rosbridge_port', 'ros');
+            $ws_port = Core::getSetting('rosbridge/port', 'ros');
         }
         // compile the Websocket URL
         return sprintf(
