@@ -1,3 +1,7 @@
+## 1.0.0 (July 23, 2020)
+  - fixed bug
+  - minor
+
 ## 1.0.0-rc2 (July 21, 2020)
   - added compatibility data to metadata.json as per compose v1.0+ requirement
   - reformatted metadata.json
