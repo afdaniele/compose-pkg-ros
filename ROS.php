@@ -198,9 +198,8 @@ class ROS {
         }
         // compile the Websocket URL
         return sprintf(
-            "ws://%s:%d",
-            $ws_hostname,
-            $ws_port
+            "ws://%s",
+            $ws_hostname
         );
     }//_get_ros_ws_url
     
