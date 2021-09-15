@@ -195,7 +195,7 @@ class ROS {
         $ws_hostname = self::_get_final_ws_hostname($ws_hostname);
         if (is_null($ws_port)) {
             $ws_port = Core::getSetting('rosbridge/port', 'ros');
-            $ws_port = (strlen($ws_port) <= 0)? "" : sprintf(":%s", ltrim($ws_port, ":"));
+            $ws_port = ($ws_port == "0")? "" : sprintf(":%s", ltrim($ws_port, ":"));
         }
         if (is_null($ws_path)) {
             $ws_path = Core::getSetting('rosbridge/path', 'ros');
