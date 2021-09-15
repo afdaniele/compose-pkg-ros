@@ -191,16 +191,22 @@ class ROS {
     }//_get_default_ros_hostname
     
     
-    private static function _get_ros_ws_url($ws_hostname = null, $ws_port = null) {
+    private static function _get_ros_ws_url($ws_hostname = null, $ws_port = null, $ws_path = null) {
         $ws_hostname = self::_get_final_ws_hostname($ws_hostname);
         if (is_null($ws_port)) {
             $ws_port = Core::getSetting('rosbridge/port', 'ros');
+            $ws_port = (strlen($ws_port) <= 0)? "" : sprintf(":%s", ltrim($ws_port, ":"));
+        }
+        if (is_null($ws_path)) {
+            $ws_path = Core::getSetting('rosbridge/path', 'ros');
+            $ws_path = (strlen($ws_path) <= 0)? "" : sprintf("/%s", ltrim($ws_path, "/"));
         }
         // compile the Websocket URL
         return sprintf(
-            "ws://%s:%d",
+            "ws://%s%s%s",
             $ws_hostname,
-            $ws_port
+            $ws_port,
+            $ws_path
         );
     }//_get_ros_ws_url
     
