@@ -77,7 +77,8 @@ class SensorMsgs_Range extends BlockRenderer {
                 });
                 
                 subscriber.subscribe(function (message) {
-                    let text = "{0} m".format(message.range.toFixed(2));
+                    let out_of_range = message.range > message.max_range;
+                    let text = (out_of_range)? "Out-of-Range" : "{0} m".format(message.range.toFixed(2));
                     $("#<?php echo $id ?> .range-float-container").text(text);
                 });
             });
@@ -134,7 +135,8 @@ class SensorMsgs_Range extends BlockRenderer {
                                 },
                                 ticks: {
                                     suggestedMin: 0,
-                                    suggestedMax: 2.0
+                                    suggestedMax: 2.0,
+                                    stepSize: 0.2
                                 }
                             }]
                         },
@@ -163,6 +165,9 @@ class SensorMsgs_Range extends BlockRenderer {
                     config.data.datasets[0].data.push(
                         message.range
                     );
+                    // update range
+                    if (message.max_range != config.options.scales.yAxes[0].ticks.suggestedMax)
+                        config.options.scales.yAxes[0].ticks.suggestedMax = message.max_range.toFixed(2);
                     // refresh chart
                     chart.update();
                 });
