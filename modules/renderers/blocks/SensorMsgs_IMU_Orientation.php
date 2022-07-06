@@ -91,7 +91,8 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
                                 },
                                 ticks: {
                                     suggestedMin: -180,
-                                    suggestedMax: 180
+                                    suggestedMax: 180,
+                                    stepSize: 45
                                 }
                             }]
                         },
