@@ -1,3 +1,10 @@
+## 1.0.1 (July 06, 2022)
+  - added max-range to SensorMsgs_Range
+  - updated ticks on SensorMsgs_IMU_Orientation's plot
+  - added more block renderers
+  - bug fix
+  - added support for path in WS url
+
 ## 1.0.0 (July 23, 2020)
   - fixed bug
   - minor
