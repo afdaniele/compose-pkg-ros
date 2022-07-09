@@ -19,7 +19,12 @@ class SensorMsgs_Range extends BlockRenderer {
             "default" => ""
         ],
         "topic" => [
-            "name" => "ROS Topic",
+            "name" => "ROS Topic (Range)",
+            "type" => "text",
+            "mandatory" => True
+        ],
+        "reference" => [
+            "name" => "ROS Topic (Reference)",
             "type" => "text",
             "mandatory" => True
         ],
@@ -67,16 +72,14 @@ class SensorMsgs_Range extends BlockRenderer {
         
         <script type="text/javascript">
             $(document).on("<?php echo $connected_evt ?>", function (evt) {
-                // Subscribe to the given topic
-                let subscriber = new ROSLIB.Topic({
+                // Subscribe to the given topics
+                (new ROSLIB.Topic({
                     ros: window.ros['<?php echo $ros_hostname ?>'],
                     name: '<?php echo $args['topic'] ?>',
                     messageType: 'sensor_msgs/Range',
                     queue_size: 1,
                     throttle_rate: <?php echo 1000 / $args['fps'] ?>
-                });
-                
-                subscriber.subscribe(function (message) {
+                })).subscribe(function (message) {
                     let out_of_range = message.range > message.max_range;
                     let text = (out_of_range)? "Out-of-Range" : "{0} m".format(message.range.toFixed(2));
                     $("#<?php echo $id ?> .range-float-container").text(text);
@@ -119,6 +122,13 @@ class SensorMsgs_Range extends BlockRenderer {
                             borderColor: window.chartColors.red,
                             fill: true,
                             data: new Array(time_horizon_secs).fill(0)
+                        },
+                        {
+                            label: 'Reference',
+                            backgroundColor: color(window.chartColors.blue).alpha(0.5).rgbString(),
+                            borderColor: window.chartColors.blue,
+                            fill: false,
+                            data: new Array(time_horizon_secs).fill(0)
                         }]
                     },
                     options: {
@@ -153,6 +163,8 @@ class SensorMsgs_Range extends BlockRenderer {
                     chart: chart,
                     config: chart_config
                 };
+                
+                let reference = 0.0;
 
                 subscriber.subscribe(function (message) {
                     // get chart
@@ -161,15 +173,29 @@ class SensorMsgs_Range extends BlockRenderer {
                     let config = chart_desc.config;
                     // cut the time horizon to `time_horizon_secs` points
                     config.data.datasets[0].data.shift();
+                    config.data.datasets[1].data.shift();
                     // add new Y
                     config.data.datasets[0].data.push(
                         message.range
+                    );
+                    config.data.datasets[1].data.push(
+                        reference
                     );
                     // update range
                     if (message.max_range != config.options.scales.yAxes[0].ticks.suggestedMax)
                         config.options.scales.yAxes[0].ticks.suggestedMax = message.max_range.toFixed(2);
                     // refresh chart
                     chart.update();
+                });
+                
+                (new ROSLIB.Topic({
+                    ros: window.ros['<?php echo $ros_hostname ?>'],
+                    name: '<?php echo $args['reference'] ?>',
+                    messageType: 'std_msgs/Float32',
+                    queue_size: 1,
+                    throttle_rate: <?php echo 1000 / $args['fps'] ?>
+                })).subscribe(function (message) {
+                    reference = message.data;
                 });
             });
         </script>
