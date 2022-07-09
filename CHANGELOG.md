@@ -1,3 +1,6 @@
+## 1.0.2 (July 09, 2022)
+  - added reference plot to SensorMsgs_Range.php
+
 ## 1.0.1 (July 06, 2022)
   - added max-range to SensorMsgs_Range
   - updated ticks on SensorMsgs_IMU_Orientation's plot
