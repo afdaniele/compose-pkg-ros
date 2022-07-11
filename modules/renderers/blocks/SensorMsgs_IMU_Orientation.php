@@ -23,6 +23,11 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
             "type" => "text",
             "mandatory" => True
         ],
+        "service" => [
+            "name" => "ROS Service (IMU Calibration)",
+            "type" => "text",
+            "mandatory" => True
+        ],
         "fps" => [
             "name" => "Update frequency (Hz)",
             "type" => "numeric",
@@ -33,6 +38,11 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
     
     protected static function render($id, &$args) {
         ?>
+        <a class="btn btn-default btn-sm" id="run_imu_calibration" role="button"
+           style="position: absolute; right: 16px; top: 45px;">
+            <i class="fa fa-compass" aria-hidden="true"></i>
+            Calibrate IMU
+        </a>
         <canvas class="resizable" style="width:100%; height:95%; padding:6px 16px"></canvas>
         <?php
         $ros_hostname = $args['ros_hostname'] ?? null;
@@ -49,6 +59,19 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
                     messageType: 'sensor_msgs/Imu',
                     queue_size: 1,
                     throttle_rate: <?php echo 1000 / $args['fps'] ?>
+                });
+                
+                // Subscribe to the given topic
+                let calibrate_imu = new ROSLIB.Service({
+                    ros: window.ros['<?php echo $ros_hostname ?>'],
+                    name : '<?php echo $args['service'] ?>',
+                    messageType : 'std_srvs/Trigger'
+                });
+                
+                $("#<?php echo $id ?> #run_imu_calibration").on("click", () => {
+                    // send request
+                    let request = new ROSLIB.ServiceRequest({});
+                    calibrate_imu.callService(request, function(_) {});
                 });
 
                 let time_horizon_secs = 20;
@@ -239,6 +262,7 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
                 }
                 return euler;
             }
+        
         </script>
         <?php
     }//render
