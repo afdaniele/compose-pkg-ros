@@ -1,3 +1,6 @@
+## 1.0.3 (July 11, 2022)
+  - added Calibrate IMU button
+
 ## 1.0.2 (July 09, 2022)
   - added reference plot to SensorMsgs_Range.php
 
