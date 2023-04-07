@@ -1,3 +1,6 @@
+## 1.0.4 (April 07, 2023)
+  - added SensorMsgs_IMU_AngularVelocity block renderer
+
 ## 1.0.3 (July 11, 2022)
   - added Calibrate IMU button
 
