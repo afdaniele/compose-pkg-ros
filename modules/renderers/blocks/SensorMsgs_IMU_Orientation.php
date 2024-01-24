@@ -23,8 +23,13 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
             "type" => "text",
             "mandatory" => True
         ],
-        "service" => [
+        "service_1" => [
             "name" => "ROS Service (IMU Calibration)",
+            "type" => "text",
+            "mandatory" => True
+        ],
+        "service_2" => [
+            "name" => "ROS Service (Yaw Zeroing)",
             "type" => "text",
             "mandatory" => True
         ],
@@ -42,6 +47,11 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
            style="position: absolute; right: 16px; top: 45px;">
             <i class="fa fa-compass" aria-hidden="true"></i>
             Calibrate IMU
+        </a>
+        <a class="btn btn-default btn-sm" id="run_yaw_zeroing" role="button"
+           style="position: absolute; right: 8px; top: 45px;">
+            <i class="fa fa-compass" aria-hidden="true"></i>
+            Zero Yaw
         </a>
         <canvas class="resizable" style="width:100%; height:95%; padding:6px 16px"></canvas>
         <?php
@@ -64,7 +74,14 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
                 // Subscribe to the given topic
                 let calibrate_imu = new ROSLIB.Service({
                     ros: window.ros['<?php echo $ros_hostname ?>'],
-                    name : '<?php echo $args['service'] ?>',
+                    name : '<?php echo $args['service_1'] ?>',
+                    messageType : 'std_srvs/Trigger'
+                });
+
+                // Subscribe to the given topic
+                let zero_yaw = new ROSLIB.Service({
+                    ros: window.ros['<?php echo $ros_hostname ?>'],
+                    name : '<?php echo $args['service_2'] ?>',
                     messageType : 'std_srvs/Trigger'
                 });
                 
@@ -72,6 +89,12 @@ class SensorMsgs_IMU_Orientation extends BlockRenderer {
                     // send request
                     let request = new ROSLIB.ServiceRequest({});
                     calibrate_imu.callService(request, function(_) {});
+                });
+
+                $("#<?php echo $id ?> #run_yaw_zeroing").on("click", () => {
+                    // send request
+                    let request = new ROSLIB.ServiceRequest({});
+                    zero_yaw.callService(request, function(_) {});
                 });
 
                 let time_horizon_secs = 20;
