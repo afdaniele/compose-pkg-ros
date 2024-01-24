@@ -1,3 +1,6 @@
+## 1.0.5 (gennaio 24, 2024)
+  - Added yaw zeroing button to IMU Orientation block
+
 ## 1.0.4 (April 07, 2023)
   - added SensorMsgs_IMU_AngularVelocity block renderer
 
